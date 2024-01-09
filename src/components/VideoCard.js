@@ -27,4 +27,12 @@ const VideoCard = ({ info }) => {
   );
 };
 
+export const BlueBorderVideoCard = ({ info }) => {
+  return (
+    <div className="border border-blue-400 bg-red-200">
+      <VideoCard info={info} />
+    </div>
+  );
+};
+
 export default VideoCard;

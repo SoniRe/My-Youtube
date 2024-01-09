@@ -17,7 +17,9 @@ const WatchPage = () => {
       <iframe
         className=" my-3 mx-14 w-[67vw] h-[77vh] aspect-video rounded-xl"
         src={
-          "https://www.youtube.com/embed/" + videoId + "?si=xv7BSDpIF2ehpqH-"
+          "https://www.youtube.com/embed/" +
+          videoId +
+          "?si=xv7BSDpIF2ehpqH-&autoplay=1"
         }
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
