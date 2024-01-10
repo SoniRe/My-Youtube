@@ -2,6 +2,12 @@ Youtube App
 
 Concepts Used
 
+Challenges
+While showing search suggestion when I was clicking suggestion onBlur event was firing before
+onClick event which made navigation impossible.
+
+So I used onMouseDown event which will fire before even onBlur
+
 Debouncing:
 
 typing slow = 200ms

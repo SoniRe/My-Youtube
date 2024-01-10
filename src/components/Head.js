@@ -4,6 +4,7 @@ import { toggleMenu } from "../utils/appSlice";
 import { useEffect, useState } from "react";
 import { YOUTUBE_SEARCH_API } from "./../utils/constants";
 import { cacheResults } from "./../utils/searchSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,6 +12,7 @@ const Head = () => {
   const [showSuggestion, setShowSuggestion] = useState(false);
   const dispatch = useDispatch();
   const cache = useSelector((store) => store.search);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Make an API Call after every key press
@@ -66,30 +68,38 @@ const Head = () => {
           className="ri-menu-line text-xl cursor-pointer hover:bg-neutral-100 py-2 px-3 rounded-full"
         ></i>
 
-        <img
-          className="w-24 cursor-pointer"
-          src={headerLogo}
-          alt="youtube header"
-        />
+        <Link to="/">
+          <img
+            className="w-24 cursor-pointer"
+            src={headerLogo}
+            alt="youtube header"
+          />
+        </Link>
       </div>
 
-      <div className="flex relative">
+      <div
+        className="flex relative"
+        onFocus={() => setShowSuggestion(true)}
+        onBlur={() => setShowSuggestion(false)}
+      >
         <input
-          onFocus={() => setShowSuggestion(true)}
-          onBlur={() => setShowSuggestion(false)}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           type="text"
           placeholder="Search"
           className="text-sm border-neutral-200 py-2 px-4 border-2 focus:outline-blue-400 rounded-l-full w-[40vw]"
         />
-        <i className=" bg-neutral-100 cursor-pointer text-base ri-search-line border-l-0 border-neutral-200 px-4 py-2 border-2 rounded-r-full"></i>
+        <Link to={"/search?q=" + searchQuery} className="flex">
+          <i className="bg-neutral-100 cursor-pointer text-base ri-search-line border-l-0 border-neutral-200 px-4 py-2 border-2 rounded-r-full"></i>
+        </Link>
+
         {showSuggestion && (
-          <div className="bg-white absolute  top-12 w-[40vw] rounded-lg overflow-hidden shadow-inner">
+          <div className="bg-white absolute top-12 w-[40vw] rounded-lg overflow-hidden shadow-inner">
             {searchSuggestion.map((suggestion) => {
               return (
                 <h2
                   key={suggestion}
+                  onMouseDown={() => navigate("/search?q=" + suggestion)}
                   className="py-3 px-4 hover:bg-neutral-100 cursor-default"
                 >
                   <i className="ri-search-line mr-3"></i> {suggestion}
