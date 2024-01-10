@@ -1,17 +1,24 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import headerLogo from "./../assets/header-logo.png";
 import { toggleMenu } from "../utils/appSlice";
 import { useEffect, useState } from "react";
 import { YOUTUBE_SEARCH_API } from "./../utils/constants";
+import { cacheResults } from "./../utils/searchSlice";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchSuggestion, setSearchSuggestion] = useState([]);
+  const [showSuggestion, setShowSuggestion] = useState(false);
   const dispatch = useDispatch();
+  const cache = useSelector((store) => store.search);
 
   useEffect(() => {
     // Make an API Call after every key press
-    const timer = setTimeout(() => getSearchSuggestion(), 200);
+    const timer = setTimeout(() => {
+      cache[searchQuery]
+        ? setSearchSuggestion(cache[searchQuery])
+        : getSearchSuggestion();
+    }, 200);
 
     return () => {
       clearTimeout(timer);
@@ -39,6 +46,11 @@ const Head = () => {
     const json = await data.json();
 
     setSearchSuggestion(json[1]);
+    dispatch(
+      cacheResults({
+        [searchQuery]: json[1],
+      })
+    );
     // console.log(json[1]);
   };
 
@@ -63,6 +75,8 @@ const Head = () => {
 
       <div className="flex relative">
         <input
+          onFocus={() => setShowSuggestion(true)}
+          onBlur={() => setShowSuggestion(false)}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           type="text"
@@ -70,16 +84,20 @@ const Head = () => {
           className="text-sm border-neutral-200 py-2 px-4 border-2 focus:outline-blue-400 rounded-l-full w-[40vw]"
         />
         <i className=" bg-neutral-100 cursor-pointer text-base ri-search-line border-l-0 border-neutral-200 px-4 py-2 border-2 rounded-r-full"></i>
-
-        <div className="bg-white absolute  top-12 w-[40vw] rounded-lg overflow-hidden shadow-inner">
-          {searchSuggestion.map((suggestion) => {
-            return (
-              <h2 className="py-3 px-4 hover:bg-neutral-100 cursor-default">
-                <i class="ri-search-line mr-3"></i> {suggestion}
-              </h2>
-            );
-          })}
-        </div>
+        {showSuggestion && (
+          <div className="bg-white absolute  top-12 w-[40vw] rounded-lg overflow-hidden shadow-inner">
+            {searchSuggestion.map((suggestion) => {
+              return (
+                <h2
+                  key={suggestion}
+                  className="py-3 px-4 hover:bg-neutral-100 cursor-default"
+                >
+                  <i className="ri-search-line mr-3"></i> {suggestion}
+                </h2>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div>

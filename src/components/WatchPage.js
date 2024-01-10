@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { collapseMenu } from "../utils/appSlice";
 import { useSearchParams } from "react-router-dom";
+import CommentsContainer from "./CommentsContainer";
 
 const WatchPage = () => {
   const dispatch = useDispatch();
@@ -13,17 +14,21 @@ const WatchPage = () => {
   }, []);
 
   return (
-    <div>
-      <iframe
-        className=" my-3 mx-14 w-[67vw] h-[77vh] aspect-video rounded-xl"
-        src={
-          "https://www.youtube.com/embed/" +
-          videoId +
-          "?si=xv7BSDpIF2ehpqH-&autoplay=1"
-        }
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      ></iframe>
+    <div className="flex flex-col my-3 mx-14">
+      <div>
+        <iframe
+          className="  w-[67vw] h-[77vh] aspect-video rounded-xl"
+          src={
+            "https://www.youtube.com/embed/" +
+            videoId +
+            "?si=xv7BSDpIF2ehpqH-&autoplay=1"
+          }
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        ></iframe>
+      </div>
+
+      <CommentsContainer />
     </div>
   );
 };
