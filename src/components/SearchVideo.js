@@ -12,13 +12,11 @@ const SearchVideo = ({ data }) => {
     viewCount = statistics.viewCount;
   }
 
-  console.log(item.snippet.thumbnails);
-
   return (
     <div className="grid grid-cols-3 gap-4 pt-5 cursor-pointer">
       <img
         className="col-span-1 w-[22vw] h-[24vh] object-cover rounded-xl"
-        src={item.snippet.thumbnails.standard.url}
+        src={item.snippet.thumbnails.medium.url}
         alt=""
       />
 
