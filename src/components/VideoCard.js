@@ -11,11 +11,15 @@ const VideoCard = ({ info }) => {
     viewCount = statistics.viewCount;
   }
 
+  let imageSource = thumbnails.standard || thumbnails.default;
+
+  console.log(info);
+
   return (
     <div className="w-[19vw] cursor-pointer">
       <img
         className="h-[22vh] w-full object-cover rounded-xl"
-        src={thumbnails.standard.url}
+        src={imageSource.url}
         alt="thumbnail"
       />
       <div className="mt-2">

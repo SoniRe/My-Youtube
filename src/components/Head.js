@@ -99,7 +99,10 @@ const Head = () => {
               return (
                 <h2
                   key={suggestion}
-                  onMouseDown={() => navigate("/search?q=" + suggestion)}
+                  onMouseDown={() => {
+                    setSearchQuery(suggestion);
+                    navigate("/search?q=" + suggestion);
+                  }}
                   className="py-3 px-4 hover:bg-neutral-100 cursor-default"
                 >
                   <i className="ri-search-line mr-3"></i> {suggestion}
